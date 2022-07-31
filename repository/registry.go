@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 	"time"
@@ -55,7 +54,7 @@ func (r *RepositoryRegistry) Repository(repositoryName string) (Repository, erro
 		return repository, nil
 	}
 
-	return nil, errors.New(fmt.Sprintf("repository %s does not exist", repositoryName))
+	return nil, fmt.Errorf("repository %s does not exist", repositoryName)
 }
 
 func (r *RepositoryRegistry) MustRepository(repositoryName string) (repository Repository) {
