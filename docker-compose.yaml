@@ -1,20 +1,4 @@
 services:
-  app:
-    build: .
-    ports:
-      - 8000:8000
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment: &env
-      PORT: 8000
-      GIN_MODE: debug
-      CGO_ENABLED: 0
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: docker
   postgres:
     image: postgres:14.3
     tmpfs:
@@ -25,4 +9,21 @@ services:
       timeout: 5s
       start_period: 5s
       retries: 3
-    environment: *env
+    environment: &postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: docker
+  app:
+    build: .
+    ports:
+      - 8000:8000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PORT: 8000
+      GIN_MODE: debug
+      CGO_ENABLED: 0
+      <<: *postgres
