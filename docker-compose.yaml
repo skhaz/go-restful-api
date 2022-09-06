@@ -6,7 +6,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
+    environment: &env
       PORT: 8000
       GIN_MODE: debug
       CGO_ENABLED: 0
@@ -25,7 +25,4 @@ services:
       timeout: 5s
       start_period: 5s
       retries: 3
-    environment:
-      POSTGRES_DB: docker
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
+    environment: *env
