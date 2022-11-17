@@ -2,6 +2,8 @@
 
 .SILENT:
 
+SHELL := bash -eou pipefail
+
 compose: test
 	docker-compose up --build
 
